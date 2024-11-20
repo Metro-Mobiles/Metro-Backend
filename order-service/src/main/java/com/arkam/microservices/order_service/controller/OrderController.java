@@ -13,6 +13,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+
+//@CrossOrigin(origins = "*")
 @RestController
 @RequestMapping("/api/order")
 @RequiredArgsConstructor
@@ -34,7 +36,7 @@ public class OrderController {
     }
 
     @GetMapping("/getOrders")
-    @ResponseStatus(HttpStatus.OK)
+//    @ResponseStatus(HttpStatus.OK)
     public ResponseEntity<?> retrieveOrders(){
         return ResponseEntity.ok().body(orderService.findAllOrder());
     }

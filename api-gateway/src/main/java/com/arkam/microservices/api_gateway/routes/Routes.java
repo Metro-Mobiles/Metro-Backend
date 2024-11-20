@@ -43,7 +43,8 @@ public class Routes {
     @Bean
     public RouterFunction<ServerResponse> orderServiceRoute() {
         return GatewayRouterFunctions.route("order_service")
-                .route(RequestPredicates.path("/api/order"), HandlerFunctions.http(orderServiceUrl))
+                .route(RequestPredicates.path("/api/order")
+                        .or(RequestPredicates.path("api/order/*")), HandlerFunctions.http(orderServiceUrl))
                 .build();
     }
 
@@ -58,7 +59,8 @@ public class Routes {
     @Bean
     public RouterFunction<ServerResponse> inventoryServiceRoute() {
         return GatewayRouterFunctions.route("inventory_service")
-                .route(RequestPredicates.path("/api/inventory"), HandlerFunctions.http(inventoryServiceUrl))
+                .route(RequestPredicates.path("/api/inventory")
+                        .or(RequestPredicates.path("api/inventory/*")), HandlerFunctions.http(inventoryServiceUrl))
                 .build();
     }
 

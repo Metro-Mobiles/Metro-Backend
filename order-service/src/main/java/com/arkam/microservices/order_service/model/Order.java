@@ -15,7 +15,7 @@ import java.math.BigDecimal;
 public class Order {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @NotBlank(message = "SKU Code is mandatory")
@@ -23,7 +23,7 @@ public class Order {
     private String skuCode;
 
     @NotNull(message = "Price is mandatory")
-    @Digits(integer = 8, fraction = 2, message = "Price must be a valid monetary amount with up to 8 digits and 2 decimal places")
+//    @Digits(integer = 8, fraction = 2, message = "Price must be a valid monetary amount with up to 8 digits and 2 decimal places")
     @PositiveOrZero(message = "Price must be zero or a positive value")
     private BigDecimal price;
 

@@ -1,5 +1,9 @@
 package com.arkam.microservices.order_service.dto;
 
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotNull;
+
 import java.math.BigDecimal;
 
 public record OrderRequest(
@@ -9,7 +13,7 @@ public record OrderRequest(
         BigDecimal price,
         Integer quantity,
         Long userId,
-        UserDetails userDetails) {
+        @Valid UserDetails userDetails) {
 
-    public record UserDetails(String email, String firstName, String lastName) {}
+    public record UserDetails(@Email String email, @NotNull String firstName,@NotNull String lastName) {}
 }

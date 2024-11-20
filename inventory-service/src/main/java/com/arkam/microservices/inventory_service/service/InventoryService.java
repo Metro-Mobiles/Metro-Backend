@@ -1,9 +1,12 @@
 package com.arkam.microservices.inventory_service.service;
 
+import com.arkam.microservices.inventory_service.model.Inventory;
 import com.arkam.microservices.inventory_service.repository.InventoryRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -13,9 +16,56 @@ public class InventoryService {
     private final InventoryRepository inventoryRepository;
 
     public boolean isInStock(String skuCode, Integer quantity) {
-        log.info(" Start -- Received request to check stock for skuCode {}, with quantity {}", skuCode, quantity);
-        boolean isInStock = inventoryRepository.existsBySkuCodeAndQuantityIsGreaterThanEqual(skuCode, quantity);
-        log.info(" End -- Product with skuCode {}, and quantity {}, is in stock - {}", skuCode, quantity, isInStock);
-        return isInStock;
+        try{
+            log.info(" Start -- Received request to check stock for skuCode {}, with quantity {}", skuCode, quantity);
+            boolean isInStock = inventoryRepository.existsBySkuCodeAndQuantityIsGreaterThanEqual(skuCode, quantity);
+            log.info(" End -- Product with skuCode {}, and quantity {}, is in stock - {}", skuCode, quantity, isInStock);
+            return isInStock;
+        } catch (Exception e){
+            throw new RuntimeException("Server Error:"+e.getMessage(),e);
+        }
     }
+
+    public void updateStock(String skuCode, Integer newQuantity){
+        try {
+            if(inventoryRepository.existsBySkuCode(skuCode)){
+                Optional<Inventory> inventory = inventoryRepository.findBySkuCode(skuCode);
+
+                Inventory updatedInventory = inventory.get();
+                updatedInventory.setQuantity(newQuantity);
+
+                inventoryRepository.save(updatedInventory);
+            } else {
+                throw new RuntimeException("Can't found the inventory");
+            }
+        }catch (Exception e){
+            throw new RuntimeException("Server Error:"+e.getMessage(),e);
+        }
+    }
+
+    public void removeStock(String skuCode){
+        try {
+            if(inventoryRepository.existsBySkuCode(skuCode)){
+                Optional<Inventory> inventory = inventoryRepository.findBySkuCode(skuCode);
+                inventoryRepository.delete(inventory.get());
+            } else {
+                throw new RuntimeException("Inventory is already removed");
+            }
+        }catch (Exception e){
+            throw new RuntimeException("Error on finding skuCode");
+        }
+    }
+
+    public void addStock(Inventory inventory){
+        try {
+            if(!inventoryRepository.existsBySkuCode(inventory.getSkuCode())) {
+                inventoryRepository.save(inventory);
+            } else {
+                throw new RuntimeException("Inventory is already exist!");
+            }
+        } catch (Exception e){
+            throw new RuntimeException("Server error:"+e.getMessage(),e);
+        }
+    }
+
 }
