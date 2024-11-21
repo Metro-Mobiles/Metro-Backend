@@ -4,6 +4,7 @@ import com.arkam.microservices.inventory_service.model.Inventory;
 import com.arkam.microservices.inventory_service.service.InventoryService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -17,7 +18,6 @@ public class InventoryController {
     public boolean isInStock(@RequestParam String skuCode, @RequestParam Integer quantity) {
         return inventoryService.isInStock(skuCode, quantity);
     }
-
     @PostMapping("/addNewStock")
     @ResponseStatus(HttpStatus.CREATED)
     public String addStock(@RequestBody Inventory inventory) {
@@ -37,4 +37,14 @@ public class InventoryController {
         return "Update the existing stock successfully";
     }
 
+    @GetMapping("/availableQuantity")
+    public ResponseEntity<?> checkQuantity(@RequestParam String skuCode){
+        return ResponseEntity.ok().body(inventoryService.checkQuantity(skuCode));
+    }
+
+    @PutMapping("/reduceQuantity")
+    public String deleteByOrder(@RequestParam String skuCode, @RequestParam Integer quantity) {
+        inventoryService.updateByOrder(skuCode, quantity);
+        return "Quantity reduced as order quantity from the existing stock successfully";
+    }
 }

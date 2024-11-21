@@ -74,7 +74,7 @@ public class Routes {
     @Bean
     public RouterFunction<ServerResponse> userServiceRoute() {
         return GatewayRouterFunctions.route("user_service")
-                .route(RequestPredicates.path("/auth/register").or(RequestPredicates.path("/auth/login")).or(RequestPredicates.path("/users")), HandlerFunctions.http(userServiceUrl))
+                .route(RequestPredicates.path("/auth/*").or(RequestPredicates.path("/auth/login")).or(RequestPredicates.path("/users")), HandlerFunctions.http(userServiceUrl))
                 .build();
     }
 

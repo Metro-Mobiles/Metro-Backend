@@ -25,17 +25,20 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 public class SecurityConfig {
 
 
-    @Autowired
-    private CustomUserDetailService customUserDetailService;
-    @Autowired
-    private JWTAuthFilter jwtAuthFilter;
+    private final CustomUserDetailService customUserDetailService;
+    private final JWTAuthFilter jwtAuthFilter;
+
+    public SecurityConfig(CustomUserDetailService customUserDetailService, JWTAuthFilter jwtAuthFilter) {
+        this.customUserDetailService = customUserDetailService;
+        this.jwtAuthFilter = jwtAuthFilter;
+    }
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {
         httpSecurity.csrf(AbstractHttpConfigurer::disable)
                 .cors(Customizer.withDefaults())
                 .authorizeHttpRequests(request -> request
-                        .requestMatchers("/auth/**", "/rooms/**", "/bookings/**").permitAll()
+                        .requestMatchers("/auth/**", "/api/product/**", "/api/order/**","/api/inventory/**").permitAll()
                         .anyRequest().authenticated())
                 .sessionManagement(manager -> manager.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authenticationProvider(authenticationProvider())

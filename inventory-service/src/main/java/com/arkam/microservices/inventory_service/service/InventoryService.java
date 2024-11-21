@@ -4,6 +4,7 @@ import com.arkam.microservices.inventory_service.model.Inventory;
 import com.arkam.microservices.inventory_service.repository.InventoryRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
@@ -56,12 +57,42 @@ public class InventoryService {
         }
     }
 
+    public ResponseEntity<?> checkQuantity(String skuCode){
+        try {
+            Optional<Inventory> inventory = inventoryRepository.findBySkuCode(skuCode);
+            if(inventory.isPresent()){
+                Inventory optionalInventory = inventory.get();
+                return ResponseEntity.ok().body(optionalInventory.getQuantity());
+            } else {
+                return ResponseEntity.badRequest().body("Inventory not present");
+            }
+        } catch (Exception e){
+            return ResponseEntity.badRequest().body("Server error on finding inventory");
+        }
+    }
     public void addStock(Inventory inventory){
         try {
             if(!inventoryRepository.existsBySkuCode(inventory.getSkuCode())) {
                 inventoryRepository.save(inventory);
             } else {
                 throw new RuntimeException("Inventory is already exist!");
+            }
+        } catch (Exception e){
+            throw new RuntimeException("Server error:"+e.getMessage(),e);
+        }
+    }
+
+    public void updateByOrder(String skuCode,Integer quantityThatWantToReduce){
+        try {
+            Optional<Inventory> inventory = inventoryRepository.findBySkuCode(skuCode);
+            if (inventory.isPresent()) {
+                Inventory presentedInventory = inventory.get();
+                Integer quantity = presentedInventory.getQuantity();
+                presentedInventory.setQuantity(quantity - quantityThatWantToReduce);
+
+                inventoryRepository.save(presentedInventory);
+            } else {
+                throw new RuntimeException("Inventory is not presented");
             }
         } catch (Exception e){
             throw new RuntimeException("Server error:"+e.getMessage(),e);

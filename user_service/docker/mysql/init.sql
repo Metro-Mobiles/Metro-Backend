@@ -1,1 +1,1 @@
-CREATE DATABASE user_service
+CREATE DATABASE IF NOT EXISTS user_service
