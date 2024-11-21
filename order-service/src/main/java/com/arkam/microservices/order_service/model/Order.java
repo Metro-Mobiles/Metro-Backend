@@ -11,6 +11,7 @@ import java.math.BigDecimal;
 @Getter
 @Setter
 @AllArgsConstructor
+@ToString
 @NoArgsConstructor
 public class Order {
 
@@ -23,7 +24,7 @@ public class Order {
     private String skuCode;
 
     @NotNull(message = "Price is mandatory")
-//    @Digits(integer = 8, fraction = 2, message = "Price must be a valid monetary amount with up to 8 digits and 2 decimal places")
+//    @Digits(integer = 1, fraction = 2, message = "Price must be a valid monetary amount with up to 8 digits and 2 decimal places")
     @PositiveOrZero(message = "Price must be zero or a positive value")
     private BigDecimal price;
 

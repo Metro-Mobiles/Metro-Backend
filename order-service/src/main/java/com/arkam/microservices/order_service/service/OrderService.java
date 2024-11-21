@@ -23,18 +23,18 @@ public class OrderService {
    private final InventoryClient inventoryClient;
     //private final KafkaTemplate<String, OrderPlacedEvent> kafkaTemplate;
 
-    public void placeOrder(OrderRequest orderRequest) {
+    public void placeOrder(Order orderRequest) {
         try {
-//        var isProductInStock = inventoryClient.isInStock(orderRequest.skuCode(), orderRequest.quantity());
-//        if (isProductInStock) {
-            Order order = new Order();
+        var isProductInStock = inventoryClient.isInStock(orderRequest.getSkuCode(), orderRequest.getQuantity());
+        if (isProductInStock) {
+//            Order order = new Order();
 //            order.setOrderNumber(UUID.randomUUID().toString());
-            order.setPrice(orderRequest.price().multiply(BigDecimal.valueOf(orderRequest.quantity())));
-            order.setSkuCode(orderRequest.skuCode());
-            order.setQuantity(orderRequest.quantity());
-            order.setUserId(orderRequest.userId());
-            orderRepository.save(order);
-
+//            order.setPrice(orderRequest.price().multiply(BigDecimal.valueOf(orderRequest.quantity())));
+//            order.setSkuCode(orderRequest.skuCode());
+//            order.setQuantity(orderRequest.quantity());
+//            order.setUserId(orderRequest.userId());
+            orderRepository.save(orderRequest);
+            inventoryClient.deleteByOrder(orderRequest.getSkuCode(), orderRequest.getQuantity());
             // Send the message to Kafka Topic
 //            OrderPlacedEvent orderPlacedEvent = new OrderPlacedEvent();
 //            orderPlacedEvent.setOrderNumber(order.getOrderNumber());
@@ -44,10 +44,10 @@ public class OrderService {
 //            log.info("Start - Sending OrderPlacedEvent {} to Kafka topic order-placed", orderPlacedEvent);
 //            kafkaTemplate.send("order-placed", orderPlacedEvent);
 //            log.info("End - Sending OrderPlacedEvent {} to Kafka topic order-placed", orderPlacedEvent);
-//        }
-//        else {
-//            throw new RuntimeException("Product with SkuCode " + orderRequest.skuCode() + " is not in stock");
-//        }
+        }
+        else {
+            throw new RuntimeException("Product with SkuCode " + orderRequest.getSkuCode() + " is not in stock");
+        }
 //            return ResponseEntity.ok().body("Success..");
 
         } catch (Exception e) {

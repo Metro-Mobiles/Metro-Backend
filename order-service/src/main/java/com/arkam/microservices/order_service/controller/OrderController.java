@@ -8,6 +8,7 @@ package com.arkam.microservices.order_service.controller;
 import com.arkam.microservices.order_service.dto.OrderRequest;
 import com.arkam.microservices.order_service.model.Order;
 import com.arkam.microservices.order_service.service.OrderService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -24,7 +25,7 @@ public class OrderController {
 
     @PostMapping("/placeOrder")
     @ResponseStatus(HttpStatus.CREATED)
-    public String placeOrder(@RequestBody OrderRequest orderRequest) {
+    public String placeOrder(@Valid @RequestBody Order orderRequest) {
         orderService.placeOrder(orderRequest);
         return "Order Placed Successfully";
     }
