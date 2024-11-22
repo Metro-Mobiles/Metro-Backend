@@ -1,41 +1,48 @@
 package com.arkam.microservices.product_service.service;
 
-import com.arkam.microservices.product_service.controller.ProductResponse;
-import com.arkam.microservices.product_service.dto.ProductRequest;
 import com.arkam.microservices.product_service.model.Product;
 import com.arkam.microservices.product_service.repository.ProductRepository;
-import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
-@RequiredArgsConstructor
-@Slf4j
 public class ProductService {
-    private final ProductRepository productRepository;
 
-    public ProductResponse createProduct(ProductRequest productRequest) {
-        Product product = Product.builder()
-                .name(productRequest.name())
-                .description(productRequest.description())
-                .skuCode(productRequest.skuCode())
-                .price(productRequest.price())
-                .build();
-        productRepository.save(product);
-        log.info("Product created successfully");
-        return new ProductResponse(product.getId(), product.getName(), product.getDescription(),
-                product.getSkuCode(),
-                product.getPrice());
+    @Autowired
+    private ProductRepository productRepository;
+
+    public List<Product> getAllProducts() {
+        return productRepository.findAll();
     }
 
-    public List<ProductResponse> getAllProducts() {
-        return productRepository.findAll()
-                .stream()
-                .map(product -> new ProductResponse(product.getId(), product.getName(), product.getDescription(),
-                        product.getSkuCode(),
-                        product.getPrice()))
-                .toList();
+    public Product getProductById(Long id) {
+        return productRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Product not found with id: " + id));
+    }
+
+    public Product createProduct(Product product) {
+        product.setTotalAmount(product.getUnitPrice() * product.getQuantity() - product.getDiscount());
+        return productRepository.save(product);
+    }
+
+    public Product updateProduct(Long id, Product updatedProduct) {
+        Product existingProduct = getProductById(id);
+        existingProduct.setImage(updatedProduct.getImage());
+        existingProduct.setName(updatedProduct.getName());
+        existingProduct.setUnitPrice(updatedProduct.getUnitPrice());
+        existingProduct.setUnitCost(updatedProduct.getUnitCost());
+        existingProduct.setDiscount(updatedProduct.getDiscount());
+        existingProduct.setCategory(updatedProduct.getCategory());
+        existingProduct.setSupplierName(updatedProduct.getSupplierName());
+        existingProduct.setQuantity(updatedProduct.getQuantity());
+        existingProduct.setTotalAmount(updatedProduct.getUnitPrice() * updatedProduct.getQuantity() - updatedProduct.getDiscount());
+        existingProduct.setSkuCode(updatedProduct.getSkuCode());
+        return productRepository.save(existingProduct);
+    }
+
+    public void deleteProduct(Long id) {
+        productRepository.deleteById(id);
     }
 }

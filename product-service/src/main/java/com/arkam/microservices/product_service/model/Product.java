@@ -1,23 +1,148 @@
 package com.arkam.microservices.product_service.model;
 
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-import org.springframework.data.mongodb.core.mapping.Document;
+import jakarta.persistence.*;
 
-import java.math.BigDecimal;
-
-@Document(value = "product")
-@Data
-@AllArgsConstructor
-@NoArgsConstructor
-@Builder
+@Entity
+@Table(name = "product")
 public class Product {
-    private String id;
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public String getImage() {
+        return image;
+    }
+
+    public void setImage(String image) {
+        this.image = image;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public Double getUnitPrice() {
+        return unitPrice;
+    }
+
+    public void setUnitPrice(Double unitPrice) {
+        this.unitPrice = unitPrice;
+    }
+
+    public Double getUnitCost() {
+        return unitCost;
+    }
+
+    public void setUnitCost(Double unitCost) {
+        this.unitCost = unitCost;
+    }
+
+    public Double getDiscount() {
+        return discount;
+    }
+
+    public void setDiscount(Double discount) {
+        this.discount = discount;
+    }
+
+    public String getCategory() {
+        return category;
+    }
+
+    public void setCategory(String category) {
+        this.category = category;
+    }
+
+    public String getSupplierName() {
+        return supplierName;
+    }
+
+    public void setSupplierName(String supplierName) {
+        this.supplierName = supplierName;
+    }
+
+    public Integer getQuantity() {
+        return quantity;
+    }
+
+    public void setQuantity(Integer quantity) {
+        this.quantity = quantity;
+    }
+
+    public Double getTotalAmount() {
+        return totalAmount;
+    }
+
+    public void setTotalAmount(Double totalAmount) {
+        this.totalAmount = totalAmount;
+    }
+
+    public String getSkuCode() {
+        return skuCode;
+    }
+
+    public void setSkuCode(String skuCode) {
+        this.skuCode = skuCode;
+    }
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    @Column(nullable = false)
+    private String image;
+
+    @Column(nullable = false)
     private String name;
-    private String description;
+
+    @Column(nullable = false)
+    private Double unitPrice;
+
+    @Column(nullable = false)
+    private Double unitCost;
+
+    @Column(nullable = false)
+    private Double discount;
+
+    @Column(nullable = false)
+    private String category;
+
+    @Column(nullable = false)
+    private String supplierName;
+
+    @Column(nullable = false)
+    private Integer quantity;
+
+    @Column(nullable = false)
+    private Double totalAmount;
+
+    @Column(nullable = false, unique = true)
     private String skuCode;
-    private BigDecimal price;
+
+    public Product() {}
+
+    public Product(String image, String name, Double unitPrice, Double unitCost, Double discount, String category,
+                   String supplierName, Integer quantity, Double totalAmount, String skuCode) {
+ this.image = image;
+        this.name = name;
+        this.unitPrice = unitPrice;
+        this.unitCost = unitCost;
+        this.discount = discount;
+        this.category = category;
+        this.supplierName = supplierName;
+        this.quantity = quantity;
+        this.totalAmount = totalAmount;
+        this.skuCode = skuCode;
+    }
+
+    // Getters and Setters
 }
