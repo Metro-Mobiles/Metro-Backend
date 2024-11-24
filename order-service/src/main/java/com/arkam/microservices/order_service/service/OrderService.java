@@ -1,8 +1,11 @@
 package com.arkam.microservices.order_service.service;
 
 import com.arkam.microservices.order_service.client.InventoryClient;
+//import com.arkam.microservices.order_service.client.ProductClient;
+import com.arkam.microservices.order_service.client.UserClient;
 import com.arkam.microservices.order_service.dto.OrderRequest;
 import com.arkam.microservices.order_service.model.Order;
+import com.arkam.microservices.order_service.model.UserRequest;
 import com.arkam.microservices.order_service.repository.OrderRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -21,21 +24,29 @@ import java.util.UUID;
 public class OrderService {
     private final OrderRepository orderRepository;
    private final InventoryClient inventoryClient;
+   private final UserClient userClient;
+//   private final ProductClient productClient;
     //private final KafkaTemplate<String, OrderPlacedEvent> kafkaTemplate;
 
     public void placeOrder(Order orderRequest) {
         try {
-        var isProductInStock = inventoryClient.isInStock(orderRequest.getSkuCode(), orderRequest.getQuantity());
-        if (isProductInStock) {
+//            UserRequest userRequest = new UserRequest();
+//            userRequest.setUserID(orderRequest.getUserId());
+
+            var isUserAvailable = userClient.checkUserId(orderRequest.getUserId());
+            if(isUserAvailable) {
+                var isProductInStock = inventoryClient.isInStock(orderRequest.getSkuCode(), orderRequest.getQuantity());
+                if (isProductInStock) {
 //            Order order = new Order();
 //            order.setOrderNumber(UUID.randomUUID().toString());
 //            order.setPrice(orderRequest.price().multiply(BigDecimal.valueOf(orderRequest.quantity())));
 //            order.setSkuCode(orderRequest.skuCode());
 //            order.setQuantity(orderRequest.quantity());
 //            order.setUserId(orderRequest.userId());
-            orderRepository.save(orderRequest);
-            inventoryClient.deleteByOrder(orderRequest.getSkuCode(), orderRequest.getQuantity());
-            // Send the message to Kafka Topic
+
+                    orderRepository.save(orderRequest);
+                    inventoryClient.deleteByOrder(orderRequest.getSkuCode(), orderRequest.getQuantity());
+                    // Send the message to Kafka Topic
 //            OrderPlacedEvent orderPlacedEvent = new OrderPlacedEvent();
 //            orderPlacedEvent.setOrderNumber(order.getOrderNumber());
 //            orderPlacedEvent.setEmail(orderRequest.userDetails().email());
@@ -44,11 +55,13 @@ public class OrderService {
 //            log.info("Start - Sending OrderPlacedEvent {} to Kafka topic order-placed", orderPlacedEvent);
 //            kafkaTemplate.send("order-placed", orderPlacedEvent);
 //            log.info("End - Sending OrderPlacedEvent {} to Kafka topic order-placed", orderPlacedEvent);
-        }
-        else {
-            throw new RuntimeException("Product with SkuCode " + orderRequest.getSkuCode() + " is not in stock");
-        }
+                } else {
+                    throw new RuntimeException("Product with SkuCode " + orderRequest.getSkuCode() + " is not in stock");
+                }
 //            return ResponseEntity.ok().body("Success..");
+            } else {
+                throw new RuntimeException("User not exist with "+orderRequest.getUserId());
+            }
 
         } catch (Exception e) {
             throw new RuntimeException("System error:" + e.getMessage(), e);
@@ -92,15 +105,24 @@ public class OrderService {
 
     public void updateOrder(Long id, Order order){
         try {
-            Optional<Order> userOrder = orderRepository.findById(id);
-            if (userOrder.isPresent()){
-                Order exitUserOrder = userOrder.get();
-                exitUserOrder.setPrice(order.getPrice());
-                exitUserOrder.setQuantity(order.getQuantity());
 
-                orderRepository.save(exitUserOrder);
+//            UserRequest userRequest = new UserRequest();
+//            userRequest.setUserID(order.getUserId());
+
+            var isUserPreset = userClient.checkUserId(order.getUserId());
+            if(isUserPreset) {
+                Optional<Order> userOrder = orderRepository.findById(id);
+                if (userOrder.isPresent()) {
+                    Order exitUserOrder = userOrder.get();
+                    exitUserOrder.setPrice(order.getPrice());
+                    exitUserOrder.setQuantity(order.getQuantity());
+
+                    orderRepository.save(exitUserOrder);
+                } else {
+                    throw new RuntimeException("Order isn't present:" + id);
+                }
             } else {
-                throw new RuntimeException("Order isn't present:"+id);
+                throw new RuntimeException("User not present");
             }
         } catch (Exception e){
             throw new RuntimeException("Order not found:"+id+e.getMessage(),e);

@@ -94,6 +94,12 @@
 			<scope>test</scope>
 		</dependency>
 
+<!--		<dependency>-->
+<!--			<groupId>com.arkam.microservices</groupId>-->
+<!--			<artifactId>user_service</artifactId>-->
+<!--			<version>${project.version}</version>-->
+<!--		</dependency>-->
+
 		<dependency>
 			<groupId>org.springdoc</groupId>
 			<artifactId>springdoc-openapi-starter-webmvc-ui</artifactId>

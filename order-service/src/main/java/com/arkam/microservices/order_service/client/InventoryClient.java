@@ -14,3 +14,4 @@ public interface InventoryClient {
     @RequestMapping(method = RequestMethod.PUT, value = "/api/inventory/reduceQuantity")
     String deleteByOrder(@RequestParam String skuCode, @RequestParam Integer quantity);
 }
+

@@ -16,6 +16,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class UserService implements IUserService {
@@ -186,5 +187,18 @@ public class UserService implements IUserService {
             response.setMessage("Error getting all users " + e.getMessage());
         }
         return response;
+    }
+
+    public Boolean findedByUsersId(Long userID){
+        try {
+            Optional<User> user = userRepository.findById(userID);
+            if(user.isPresent()){
+                return true;
+            } else {
+                return false;
+            }
+        } catch (Exception e){
+            throw new RuntimeException("User not found");
+        }
     }
 }

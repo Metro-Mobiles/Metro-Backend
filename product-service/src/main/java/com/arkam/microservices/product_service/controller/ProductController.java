@@ -16,13 +16,18 @@ public class ProductController {
 
     private final ProductService productService;
 
-    @PostMapping
+    @PostMapping("/addProduct")
     @ResponseStatus(HttpStatus.CREATED)
     public ProductResponse createProduct(@RequestBody ProductRequest productRequest) {
         return productService.createProduct(productRequest);
     }
 
-    @GetMapping
+    @GetMapping("/retrieveById")
+    public Boolean retrieveById(@RequestParam Long id){
+        return productService.checkId(id);
+    }
+
+    @GetMapping("/retrieveProducts")
     @ResponseStatus(HttpStatus.OK)
     public List<ProductResponse> getAllProducts() {
         return productService.getAllProducts();

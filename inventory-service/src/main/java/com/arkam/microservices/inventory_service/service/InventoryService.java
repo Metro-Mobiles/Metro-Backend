@@ -33,7 +33,7 @@ public class InventoryService {
                 Optional<Inventory> inventory = inventoryRepository.findBySkuCode(skuCode);
 
                 Inventory updatedInventory = inventory.get();
-                updatedInventory.setQuantity(newQuantity);
+                updatedInventory.setQuantity(updatedInventory.getQuantity() + newQuantity);
 
                 inventoryRepository.save(updatedInventory);
             } else {
@@ -75,7 +75,7 @@ public class InventoryService {
             if(!inventoryRepository.existsBySkuCode(inventory.getSkuCode())) {
                 inventoryRepository.save(inventory);
             } else {
-                throw new RuntimeException("Inventory is already exist!");
+                updateStock(inventory.getSkuCode(),inventory.getQuantity());
             }
         } catch (Exception e){
             throw new RuntimeException("Server error:"+e.getMessage(),e);
