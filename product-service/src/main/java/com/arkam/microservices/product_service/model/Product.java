@@ -1,20 +1,21 @@
 package com.arkam.microservices.product_service.model;
 
-
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-import org.springframework.data.mongodb.core.mapping.Document;
+import jakarta.persistence.*;
+import jakarta.validation.constraints.*;
+import lombok.*;
 
 import java.math.BigDecimal;
 
-@Document(value = "product")
-@Data
+@Entity
+@Table(name = "t_products")
+@Getter
+@Setter
 @AllArgsConstructor
+@ToString
 @NoArgsConstructor
-@Builder
 public class Product {
+    @Id
+    @GeneratedV
     private String id;
     private String name;
     private String description;

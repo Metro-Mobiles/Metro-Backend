@@ -16,6 +16,8 @@ public interface IUserService {
 
     Response getUserById(String userId);
 
+    Boolean findedByUsersId(Long userID);
+
     Response getMyInfo(String email);
 
 }

@@ -9,6 +9,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -37,5 +38,18 @@ public class ProductService {
                         product.getSkuCode(),
                         product.getPrice()))
                 .toList();
+    }
+
+    public Boolean checkId(Long id){
+        try {
+            Optional<Product> product = productRepository.findById(id);
+            if(product.isPresent()){
+                return true;
+            } else {
+                return false;
+            }
+        } catch (Exception e){
+            throw new RuntimeException("Product not found");
+        }
     }
 }
