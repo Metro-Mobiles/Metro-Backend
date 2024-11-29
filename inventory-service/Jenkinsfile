@@ -13,7 +13,7 @@ pipeline {
             steps {
                 script {
                     withDockerRegistry(credentialsId: '4c3eb1b9-c6d4-46c8-bdef-bc9f1a1f1085', toolName: 'docker') {
-                        sh "docker build -t fazlyfathhy/inventory_service ."
+                        sh "docker build -t fazlyfathhy/inventory_service -f Metro-Backend/order-service/Dockerfile ."
                     }
                 }
             }
