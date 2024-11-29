@@ -1,11 +1,64 @@
 package com.arkam.microservices.product_service.model;
 
-
 import jakarta.persistence.*;
 
 @Entity
 @Table(name = "product")
 public class Product {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    @Column(nullable = false)
+    private String image;  // Store the image URL
+
+    @Column(nullable = false)
+    private String name;
+
+    @Column(nullable = false)
+    private Double unitPrice;
+
+    @Column(nullable = false)
+    private Double unitCost;
+
+    @Column(nullable = false)
+    private Double discount;
+
+    @Column(nullable = false)
+    private String category;
+
+    @Column(nullable = false)
+    private String supplierName;
+
+    @Column(nullable = false)
+    private Integer quantity;
+
+    @Column(nullable = false)
+    private Double totalAmount;
+
+    @Column(nullable = false, unique = true)
+    private String skuCode;
+
+    // No-args constructor
+    public Product() {}
+
+    // Constructor to initialize the product object with the image URL and other attributes
+    public Product(String image, String name, Double unitPrice, Double unitCost, Double discount, String category,
+                   String supplierName, Integer quantity, Double totalAmount, String skuCode) {
+        this.image = image;
+        this.name = name;
+        this.unitPrice = unitPrice;
+        this.unitCost = unitCost;
+        this.discount = discount;
+        this.category = category;
+        this.supplierName = supplierName;
+        this.quantity = quantity;
+        this.totalAmount = totalAmount;
+        this.skuCode = skuCode;
+    }
+
+    // Getters and setters for all fields
     public Long getId() {
         return id;
     }
@@ -93,56 +146,4 @@ public class Product {
     public void setSkuCode(String skuCode) {
         this.skuCode = skuCode;
     }
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-
-    @Column(nullable = false)
-    private String image;
-
-    @Column(nullable = false)
-    private String name;
-
-    @Column(nullable = false)
-    private Double unitPrice;
-
-    @Column(nullable = false)
-    private Double unitCost;
-
-    @Column(nullable = false)
-    private Double discount;
-
-    @Column(nullable = false)
-    private String category;
-
-    @Column(nullable = false)
-    private String supplierName;
-
-    @Column(nullable = false)
-    private Integer quantity;
-
-    @Column(nullable = false)
-    private Double totalAmount;
-
-    @Column(nullable = false, unique = true)
-    private String skuCode;
-
-    public Product() {}
-
-    public Product(String image, String name, Double unitPrice, Double unitCost, Double discount, String category,
-                   String supplierName, Integer quantity, Double totalAmount, String skuCode) {
- this.image = image;
-        this.name = name;
-        this.unitPrice = unitPrice;
-        this.unitCost = unitCost;
-        this.discount = discount;
-        this.category = category;
-        this.supplierName = supplierName;
-        this.quantity = quantity;
-        this.totalAmount = totalAmount;
-        this.skuCode = skuCode;
-    }
-
-    // Getters and Setters
 }

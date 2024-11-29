@@ -28,7 +28,7 @@ public class Routes {
     @Bean
     public RouterFunction<ServerResponse> productServiceRoute() {
         return GatewayRouterFunctions.route("product_service")
-                .route(RequestPredicates.path("/api/product").or(RequestPredicates.path("/api/product/*")), HandlerFunctions.http(productServiceUrl))
+                .route(RequestPredicates.path("/api/product/*").or(RequestPredicates.path("/api/product/*")), HandlerFunctions.http(productServiceUrl))
                 .build();
     }
 
