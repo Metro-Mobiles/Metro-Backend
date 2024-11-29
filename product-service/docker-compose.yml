@@ -2,13 +2,13 @@ services:
   app:
     build:
       context: .
-    image: orderservice
-    container_name: order-service-app
+    image: productservice
+    container_name: product-service-app
     environment:
       DB_HOST: metroo-server.mysql.database.azure.com
       DB_PORT: 3306
       DB_USER: arkam
       DB_PASSWORD: Arkam@4169
-      DB_NAME: user_service
+      DB_NAME: product_service
     ports:
-      - "8081:8081"
+      - "8080:8080"
