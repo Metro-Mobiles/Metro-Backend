@@ -2,21 +2,25 @@ package com.arkam.microservices.user_service.controller;
 
 import com.arkam.microservices.user_service.DTO.LoginRequest;
 import com.arkam.microservices.user_service.DTO.Response;
+import com.arkam.microservices.user_service.DTO.UserID;
 import com.arkam.microservices.user_service.entity.User;
 import com.arkam.microservices.user_service.service.inter.IUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
+import java.util.Optional;
+
+//@CrossOrigin(origins = "*")
 @RestController
 @RequestMapping("/auth")
 public class AuthController {
 
-    @Autowired
-    private IUserService userService;
+    private final IUserService userService;
+
+    public AuthController(IUserService userService) {
+        this.userService = userService;
+    }
 
     @PostMapping("/register")
     public ResponseEntity<Response> register(@RequestBody User user) {
@@ -26,13 +30,16 @@ public class AuthController {
         return ResponseEntity.status(response.getStatusCode()).body(response);
 
     }
+
+    @GetMapping("/retriveByUserId")
+    public Boolean checkUserId(@RequestParam Long userID){
+        return userService.findedByUsersId(userID);
+    }
     @PostMapping("/login")
     public ResponseEntity<Response> login(@RequestBody LoginRequest loginRequest) {
         Response response = userService.login(loginRequest);
         return ResponseEntity.status(response.getStatusCode()).body(response);
 
     }
-
-
 
 }
