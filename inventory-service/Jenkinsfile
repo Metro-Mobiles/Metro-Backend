@@ -3,11 +3,12 @@ pipeline {
 
     stages {
 
-        stage('Debug Workspace') {
+       stage('Debug Workspace') {
     steps {
-        sh 'ls -R /var/lib/jenkins/workspace/Inventory Service Pipeline/'
+        sh 'ls -R "/var/lib/jenkins/workspace/Inventory Service Pipeline/"'
     }
-}        
+}
+
         stage('Build & Tag Docker Image') {
             steps {
                 script {
