@@ -2,6 +2,12 @@ pipeline {
     agent any
 
     stages {
+
+        stage('Debug Workspace') {
+    steps {
+        sh 'ls -R /var/lib/jenkins/workspace/Inventory Service Pipeline/'
+    }
+}        
         stage('Build & Tag Docker Image') {
             steps {
                 script {
