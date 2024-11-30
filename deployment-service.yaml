@@ -15,7 +15,7 @@ spec:
         app: inventory-service
     spec:
       containers:
-      - name: fazlyfathhy/inventory-service
+      - name: inventory-service
         image: fazlyfathhy/inventory-service
         ports:
         - containerPort: 8082
@@ -89,7 +89,7 @@ spec:
         app: product-service
     spec:
       containers:
-      - name: fazlyfathhy/product-service
+      - name: product-service
         image: fazlyfathhy/product-service
         ports:
         - containerPort: 8084
@@ -126,7 +126,7 @@ spec:
         app: user-service
     spec:
       containers:
-      - name: fazlyfathhy/user_service
+      - name: user_service
         image: fazlyfathhy/user_service
         ports:
         - containerPort: 8085
