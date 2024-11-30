@@ -5,10 +5,10 @@ FROM openjdk:17-jdk-slim
 WORKDIR /app
 
 # Copy the jar file
-COPY target/Orderservice.jar .
+COPY target/Inventoryservice.jar .
 
 # Expose the application port
-EXPOSE 8081
+EXPOSE 8082
 
 # Run the application
 CMD ["java", "-jar", "app.jar"]

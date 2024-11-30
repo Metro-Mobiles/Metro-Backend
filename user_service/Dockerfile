@@ -8,7 +8,7 @@ WORKDIR /app
 COPY target/Userservice.jar .
 
 # Expose the application port
-EXPOSE 8080
+EXPOSE 8083
 
 # Run the application
 CMD ["java", "-jar", "app.jar"]
