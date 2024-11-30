@@ -1,12 +1,14 @@
-version: '4'
 services:
-  mysql:
-    image: mysql:8.3.0
-    container_name: inventory-service-mysql
+  app:
+    build:
+      context: .
+    image: inventoryservice
+    container_name: inventory-service-app
     environment:
-      MYSQL_ROOT_PASSWORD: mysql
+      DB_HOST: metroo-server.mysql.database.azure.com
+      DB_PORT: 3306
+      DB_USER: arkam
+      DB_PASSWORD: Arkam@4169
+      DB_NAME: inventory_service
     ports:
-      - "3316:3306"
-    volumes:
-      - ./data/mysql:/var/lib/mysql
-      - ./docker/mysql/init.sql:/docker-entrypoint-initdb.d/init.sql
+      - "8082:8082"

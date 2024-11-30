@@ -114,6 +114,16 @@
 			<artifactId>aws-java-sdk-s3</artifactId>
 			<version>1.12.667</version>
 		</dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-testcontainers</artifactId>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.testcontainers</groupId>
+			<artifactId>junit-jupiter</artifactId>
+			<scope>test</scope>
+		</dependency>
 
 	</dependencies>
 
@@ -132,6 +142,7 @@
 				</configuration>
 			</plugin>
 		</plugins>
+		<finalName>Productservice</finalName>
 	</build>
 
 </project>
