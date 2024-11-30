@@ -1,27 +1,15 @@
-# Use the official Maven image to compile and build your application
-FROM maven:3.8.5-openjdk-17 AS build
-
-# Set the working directory
-WORKDIR /app
-
-# Copy the project's pom.xml and source files to the container
-COPY pom.xml .
-COPY src ./src
-
-# Package the application
-RUN mvn clean package
-
-# Use the official OpenJDK image to run the application
+# Use a base image for Java
 FROM openjdk:17-jdk-slim
 
 # Set the working directory
 WORKDIR /app
 
-# Copy the built JAR file from the build stage
-COPY --from=build /app/target/*.jar app.jar
+# Copy the jar file
+COPY pom.xml .
+COPY src ./src
 
-# Expose the port your application runs on (e.g., 8080)
-EXPOSE 8090
+# Expose the application port
+EXPOSE 8084
 
-# Define the command to run your application
+# Run the application
 CMD ["java", "-jar", "app.jar"]
