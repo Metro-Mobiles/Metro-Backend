@@ -7,7 +7,7 @@ import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-@FeignClient(value = "user",url = "${user.url}")
+@FeignClient(value = "user", url = "http://localhost:8083")
 public interface UserClient {
 
 

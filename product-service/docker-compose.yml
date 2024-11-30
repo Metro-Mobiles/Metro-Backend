@@ -1,13 +1,14 @@
-version: '4'
 services:
-  mongodb:
-    image: mongo:7.0.5
-    container_name: mongodb
-    ports:
-      - "27017:27017"
+  app:
+    build:
+      context: .
+    image: productservice
+    container_name: product-service-app
     environment:
-      MONGO_INITDB_ROOT_USERNAME: root
-      MONGO_INITDB_ROOT_PASSWORD: password
-      MONGO_INITDB_DATABASE: product-service
-    volumes:
-      - ./data/mongodb:/data/db
+      DB_HOST: metroo-server.mysql.database.azure.com
+      DB_PORT: 3306
+      DB_USER: arkam
+      DB_PASSWORD: Arkam@4169
+      DB_NAME: product_service
+    ports:
+      - "8080:8080"

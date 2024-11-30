@@ -31,3 +31,8 @@ build/
 
 ### VS Code ###
 .vscode/
+
+order-service/data/mysql/
+
+# Ignore MySQL data and temporary files
+**/data/mysql/

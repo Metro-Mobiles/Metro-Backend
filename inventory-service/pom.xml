@@ -104,6 +104,7 @@
 				</configuration>
 			</plugin>
 		</plugins>
+		<finalName>Inventoryservice</finalName>
 	</build>
 
 </project>
