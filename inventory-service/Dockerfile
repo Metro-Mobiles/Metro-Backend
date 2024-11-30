@@ -11,4 +11,4 @@ COPY target/Inventoryservice.jar .
 EXPOSE 8082
 
 # Run the application
-CMD ["java", "-jar", "app.jar"]
+CMD ["java", "-jar"]
