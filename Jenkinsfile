@@ -16,7 +16,7 @@ pipeline {
                         ]
                     ]
                 ) {
-                    sh "kubectl apply -f deployment-service.yml"
+                    sh "kubectl apply -f deployment-service.yaml"
                 }
             }
         }
