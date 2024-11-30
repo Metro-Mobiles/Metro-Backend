@@ -11,4 +11,4 @@ COPY target/Userservice.jar .
 EXPOSE 8083
 
 # Run the application
-CMD ["java", "-jar", "app.jar"]
+CMD ["java", "-jar"]
