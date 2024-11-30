@@ -126,7 +126,7 @@ spec:
         app: user-service
     spec:
       containers:
-      - name: user_service
+      - name: user-service
         image: fazlyfathhy/user_service
         ports:
         - containerPort: 8085
