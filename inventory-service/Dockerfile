@@ -5,7 +5,8 @@ FROM openjdk:17-jdk-slim
 WORKDIR /app
 
 # Copy the jar file
-COPY target/Inventoryservice.jar .
+COPY pom.xml .
+COPY src ./src
 
 # Expose the application port
 EXPOSE 8082
