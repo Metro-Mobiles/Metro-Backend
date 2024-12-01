@@ -12,4 +12,3 @@ COPY src ./src
 EXPOSE 8083
 
 # Run the application
-CMD ["java", "-jar", "app.jar"]
