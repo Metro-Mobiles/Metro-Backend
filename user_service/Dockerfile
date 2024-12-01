@@ -11,5 +11,4 @@ COPY src ./src
 # Expose the application port
 EXPOSE 8085
 
-# Run the application
-CMD ["java", "-jar", "app.jar"]
+# Run the applicatio
